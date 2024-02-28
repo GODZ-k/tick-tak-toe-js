@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            min-height: 50vh;
+        }
+
+        .game {
+            display: flex;
+            flex-wrap: wrap;
+            height: 30vw;
+            width: 40vw;
+        }
+
+        .btn {
+            margin: 2px;
+            width: 13vw;
+            border: none;
+            font-size: 5rem;
+            background-color: green;
+            cursor: pointer;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        #msg {
+            color: black;
+            text-align: center;
+            font-size: 4rem;
+            padding: 20px;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="game">
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+        </div>
+    </div>
+
+
+    <div id="msg" class="hide">
+        you won !
+    </div>
+    <script>
+        let turno = true
+        let btn = document.querySelectorAll(".btn")
+        let msg = document.querySelector("#msg")
+        const winpattern = [
+            [0, 1, 2],
+            [0, 3, 6],
+            [0, 4, 8],
+            [1, 4, 7],
+            [2, 5, 8],
+            [3, 4, 5],
+            [6, 7, 8],
+            [6, 4, 2],
+        ]
+        btn.forEach((choice) => {
+            choice.addEventListener("click", () => {
+                if (turno) {
+                    choice.innerHTML = "o"
+                    turno = false
+                } else {
+                    choice.innerText = "x"
+                    turno = true
+                }
+                choice.disabled = true
+
+                checkWinner()
+            })
+
+        })
+
+        const checkWinner = () => {
+            for (let pattern of winpattern) {
+                let pos1val = btn[pattern[0]].innerText
+                let pos2val = btn[pattern[1]].innerText
+                let pos3val = btn[pattern[2]].innerText
+
+                if (pos1val != "" && pos2val != "" && pos3val != "") {
+                    if (pos1val === pos2val && pos2val === pos3val) {
+                        console.log("winner", pos1val)
+                        displaywinner(pos1val)
+                        msg.disabled = ture
+                    }
+
+                }
+
+            }
+        }
+
+
+        const displaywinner = (pos1val) => {
+            msg.innerText = `congratulation winnner is ${pos1val}`
+            msg.classList.remove("hide")
+
+        }
+    </script>
+
+</body>
+
+</html>
